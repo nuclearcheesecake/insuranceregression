@@ -30,7 +30,7 @@ I will be splitting the data in two - cross-validation.
 
 For this analysis, I will be using data supplied by the Kaggle user [Miri Choi](https://www.kaggle.com/mirichoi0218) called _Medical Cost Personal Datasets_. This dataset can be found [on Kaggle](https://www.kaggle.com/mirichoi0218/insurance/), or in my [repository](https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/insurance.csv).
 
-This data was obtained in 2018, but as I am aiming to test out my LRM creation skills, the data does not have to be timely.
+This data was obtained in 2018, but as I am aiming to test out my LRM creation skills, the data does not have to be timely. The data does however contain enough attributes, inluding the amount charged, per patient, and is thus comprehensive and relevant. Thus I consider the data to have integrity, for my purposes. I would have liked to see the severity of the affliction, or a comparision between insurers, but this dataset is enough to just test the waters with.
 
 The data is considered [open data](https://opendatacommons.org/licenses/dbcl/1-0/).
 
