@@ -1,5 +1,9 @@
 # Predicting health insurance costs using linear regression in R
 
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/national-cancer-institute-NFvdKIhxYlU-unsplash.jpg">
+</p>
+
 ## Table of Contents
 
 1. [Scenario explanation](#1)
