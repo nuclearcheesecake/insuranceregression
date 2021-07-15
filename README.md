@@ -10,11 +10,14 @@
 <a name="1"></a>
 ## 1. Scenario explanation
 
+<ins> What is the point of this project? </ins>
+
 After completing a module on linear regression at university, I wanted to test out the theory learned, and see if I can use my knowledge to make predictions given raw data. I will thus be creating the linear regression model by using the linear algebra and statistics that I studied during the semester, and then verify my findings using the linear regression functions in R.
 
 The goal of this project is to test the waters to see if I can create a model that reasonably predicts medical costs billed by health insurers, given a few attributes of the patient. I will firstly clean the data, because dirty data won't provide good predictions. Then I will proceed to create the LRM, with a process that will be discussed in [section 3](#3).
 
 After this, I will hopefully have constructed a useful model, which I can then use to test on new data.
+
 
 <ins> How will I validate my model? </ins>
 
