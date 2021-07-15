@@ -16,7 +16,7 @@ The goal of this project is to test the waters to see if I can create a model th
 
 After this, I will hopefully have constructed a useful model, which I can then use to test on new data.
 
-</ins> How will I validate my model? <\ins>
+<ins> How will I validate my model? </ins>
 
 I will be splitting the data in two - cross-validation.
 
