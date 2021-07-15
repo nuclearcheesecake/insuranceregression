@@ -60,7 +60,7 @@ plot(factor(insurance_df$region), insurance_df$charges, main = "region vs Charge
 ```
 
 <p align="center">
-  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/plot.png">
+  <img width="725" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/plot.png">
 </p>
 
 <a name="4"></a>
