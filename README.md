@@ -48,5 +48,20 @@ The data is considered [open data](https://opendatacommons.org/licenses/dbcl/1-0
 <a name="3"></a>
 ## 3. Creating the LRM
 
+```
+par(mfcol = c(2,3))
+plot(insurance_df$age, insurance_df$charges, main = "Age vs Charges", ylab = "Charges", xlab = "Age")
+plot(factor(insurance_df$sex), insurance_df$charges, main = "Sex vs Charges", col = c("pink", "lightblue"), ylab = "Charges", xlab = "Sex")
+plot(insurance_df$bmi, insurance_df$charges, main = "BMI vs Charges", ylab = "Charges", xlab = "BMI")
+plot(factor(insurance_df$children), insurance_df$charges, main = "Children vs Charges", ylab = "Charges", xlab = "Number of children", col = rainbow(5))
+plot(factor(insurance_df$smoker), insurance_df$charges, main = "Smoker vs Charges", col = c("green","yellow"), ylab = "Charges", xlab = "Smoker?")
+plot(factor(insurance_df$region), insurance_df$charges, main = "region vs Charges", col = c("red","blue","green","yellow"), names = c("NE", "NW", "SE", "SW"), ylab = "Charges", xlab = "Region")
+
+```
+
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/plot.png">
+</p>
+
 <a name="4"></a>
 ## 4. Prediction and visualisation
