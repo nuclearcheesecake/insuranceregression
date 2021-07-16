@@ -219,6 +219,8 @@ Age and BMI has a slight positive correlation with charges, and children can be 
 
 * **Checking for interactions and multicollinearity**
 
+<ins> Interactions between predictors </ins>
+
 Let's look at the interaction between age with the qualitative variables, as well as BMI:
 
 ```
@@ -287,7 +289,7 @@ To further see the combined effect of smoking and BMI, let's create a new vector
 
 ```
 lowbmiandsmoke = paste(data.model$smoker, as.character(data.model$bmi <= 30))
-interaction.plot(data.model$age, lowbmiandsmoke, data.model$charges, col = rainbow(2))
+interaction.plot(data.model$age, lowbmiandsmoke, data.model$charges, col = c("red","blue","purple","green"))
 ```
 
 <p align="center">
@@ -295,6 +297,20 @@ interaction.plot(data.model$age, lowbmiandsmoke, data.model$charges, col = rainb
 </p>
 
 This explains the three "strokes" in the age data perfectly! The lower "stroke" is all the non-smokers, whereas the upper "strokes" are the smokers with differing BMIs.
+
+This means that we should add a new column in our data frame, that classifies whether a person has a BMI lower than 30, or not.
+
+```
+data.model$lowbmi = data.model$bmi <= 30
+plot(factor(data.model$lowbmi), data.model$charges, main = "BMI classification vs Charges", col = c("purple","green"), ylab = "Charges", xlab = "BMI Classification (TRUE = 30 or lower, FALSE = 31 or higher)")
+```
+
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/lowbmibox.png">
+</p>
+
+
+<ins> Multicollinearity </ins>
 
 * **Reduction of predictor variables**
 
