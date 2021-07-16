@@ -202,9 +202,11 @@ plot(factor(data.model$region), data.model$charges, main = "Region vs Charges", 
   <img width="725" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/sampleplot.png">
 </p>
 
-I will thus have to explore the _age_ attribute more thoroughly. At this stage, I am reasonably certain that your BMI, sex, children and region will not have a large effect, but we will see. Being a smoker, on the other hand, is expected to have an effect on your charges.
+I will thus have to explore the _age_ attribute more thoroughly. At this stage, I am reasonably certain that your sex, children and region will not have a large effect, but we will see. Being a smoker, on the other hand, is expected to have an effect on your charges. There is also something going on with the BMI, where it looks like we have one group staying close to the bottom of the graph, and another group that tends higher as BMI increases.
 
 * **Checking for interactions and multicollinearity**
+
+Age segmented by smoker, and smoker segmented by BMI? 
 
 * **Reduction of predictor variables**
 
