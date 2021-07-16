@@ -37,7 +37,7 @@ This data was obtained in 2018, but as I am aiming to test out my LRM creation s
 
 The data is considered [open data](https://opendatacommons.org/licenses/dbcl/1-0/).
 
-* **Loading and exploring the data**
+* **Loading the data**
 
 I load the data into RStudio as follows:
 
@@ -130,21 +130,9 @@ So now we can delete row 582 as being a duplicate, since it is unlikely that 2 p
 
 Now our data can be considered clean, and we can proceed to working with it.
 
-* **Splitting the data 80/20**
+* **Preliminary exploration**
 
-Firstly, we have to define the sample size that we want to gather from the data frame. I am also setting a seed so that the results I obtain can be reproducible if the same seed is used on someone else's computer. The sample taken will then still be random, but always be the same sample for this data frame and seed.
-
-```
-> samplesize = floor(0.2*nrow(insurance_df))
-> samplesize
-[1] 267
-> set.seed(123)
-```
-
-Thus I will be holding out 267 entries to test my data on. 
-
-<a name="3"></a>
-## 3. Creating the LRM
+Let's look at the relationships between the various attributes and the insurance charge, just for interest's sake, and to get an idea of what is going on in the data. This will not be used to make decisions off of, since the data has not been split yet, but just so that I can get a feel for what lies in the dataset.
 
 ```
 par(mfcol = c(2,3))
@@ -160,6 +148,43 @@ plot(factor(insurance_df$region), insurance_df$charges, main = "region vs Charge
 <p align="center">
   <img width="725" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/plot.png">
 </p>
+
+We can see that there is something interesting going on in the _age_ graph, and that the _smoker_ graph provides quite a big difference between the two categories. The other graphs are relatively uninteresting, but we will conduct more formal tests in our analysis.
+
+* **Splitting the data 80/20**
+
+Firstly, we have to define the sample size that we want to gather from the data frame. I am also setting a seed so that the results I obtain can be reproducible if the same seed is used on someone else's computer. The sample taken will then still be random, but always be the same sample for this data frame and seed.
+
+```
+> samplesize = floor(0.2*nrow(insurance_df))
+> samplesize
+[1] 267
+> set.seed(123)
+```
+
+Thus I will be holding out 267 entries to test my data on. Now we can randomly sample  indices from 1 to the size of our data frame, picking 267 values. Then we use these indices to create two new data frames, one to be used for the model and one for testing.
+
+```
+sample.index = sample(1:nrow(insurance_df), size = samplesize)
+data.model = insurance_df[-sample.index,]
+data.testing = insurance_df[sample.index,]
+```
+
+To test that we assigned the right amount of variables to the right data frame, we can look at the length of each:
+
+```
+> nrow(data.model)
+[1] 1070
+> nrow(data.testing)
+[1] 267
+```
+
+
+
+<a name="3"></a>
+## 3. Creating the LRM
+
+
 
 <a name="4"></a>
 ## 4. Prediction and visualisation
