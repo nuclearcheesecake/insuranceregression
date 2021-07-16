@@ -16,16 +16,15 @@
 
 <ins> What is the point of this project? </ins>
 
-After completing a module on linear regression at university, I wanted to test out the theory learned, and see if I can use my knowledge to make predictions given raw data. I will thus be creating the linear regression model by using the linear algebra and statistics that I studied during the semester, and then verify my findings using the linear regression functions in R.
+After completing a theoretical module on _linear regression models_ at university, I wanted to test what I learned, and see if I can use my knowledge to make predictions given raw data. I will thus be creating the linear regression model by using the linear algebra and statistics that I studied during the semester (using R for computations), and then verify my findings using the linear regression functions in R, such as lm() and automatic selection functions.
 
 The goal of this project is to test the waters to see if I can create a model that reasonably predicts medical costs billed by health insurers, given a few attributes of the patient. I will firstly clean the data, because dirty data won't provide good predictions. Then I will proceed to create the LRM, with a process that will be discussed in [section 3](#3).
 
-After this, I will hopefully have constructed a useful model, which I can then use to test on new data.
-
+After this, I will hopefully have constructed a useful model, which I can then use to test on new data. Because I obtained the data from an external source, and thus have no control over the assignment of variables, this will be an **exploratory observational study**.
 
 <ins> How will I validate my model? </ins>
 
-I will be splitting the data in two - cross-validation.
+In order to test whether the model I build can make good decisions, I will be using a number of "goodness of fit" measures. But I will also use _cross-validation_, where I split my data 80/20, and use 80% of the data to build the model and 20% as "new" data to make predictions off of, and see how accurate the model predicts new observations.
 
 <a name="2"></a>
 ## 2. Obtaining and cleaning the data
@@ -43,7 +42,7 @@ The data is considered [open data](https://opendatacommons.org/licenses/dbcl/1-0
 
 * **Cleaning the data**
 
-
+* **Splitting the data 80/20**
 
 <a name="3"></a>
 ## 3. Creating the LRM
