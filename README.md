@@ -204,9 +204,67 @@ plot(factor(data.model$region), data.model$charges, main = "Region vs Charges", 
 
 I will thus have to explore the _age_ attribute more thoroughly. At this stage, I am reasonably certain that your sex, children and region will not have a large effect, but we will see. Being a smoker, on the other hand, is expected to have an effect on your charges. There is also something going on with the BMI, where it looks like we have one group staying close to the bottom of the graph, and another group that tends higher as BMI increases.
 
+Now we check mathematically by calculating the correlation:
+
+```
+> cor(insurance_df[,c(1,3,4,7)])
+                age        bmi   children    charges
+age      1.00000000 0.10934361 0.04153621 0.29830821
+bmi      0.10934361 1.00000000 0.01275466 0.19840083
+children 0.04153621 0.01275466 1.00000000 0.06738935
+charges  0.29830821 0.19840083 0.06738935 1.00000000
+```
+
+Age and BMI has a slight positive correlation with charges, and children can be seen as insignificant. The reason for age and BMI not having higher correlations can be due to the interactions present - evident in the "three strokes" in age and the "lower and upper clouds" in BMI. Let's explore that further.
+
 * **Checking for interactions and multicollinearity**
 
-Age segmented by smoker, and smoker segmented by BMI? 
+Let's look at the interaction between age with the qualitative variables, as well as BMI:
+
+```
+par(mfcol = c(2,2))
+interaction.plot(data.model$age, data.model$smoker, data.model$charges, col = rainbow(2))
+interaction.plot(data.model$age, data.model$sex, data.model$charges, col = rainbow(2))
+interaction.plot(data.model$age, data.model$children, data.model$charges, col = rainbow(6))
+interaction.plot(data.model$age, data.model$region, data.model$charges, col = rainbow(4))
+```
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/ageint.png">
+</p>
+
+```
+par(mfcol = c(2,2))
+interaction.plot(data.model$bmi, data.model$smoker, data.model$charges, col = rainbow(2))
+interaction.plot(data.model$bmi, data.model$sex, data.model$charges, col = rainbow(2))
+interaction.plot(data.model$bmi, data.model$children, data.model$charges, col = rainbow(6))
+interaction.plot(data.model$bmi, data.model$region, data.model$charges, col = rainbow(4))
+```
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/bmiint.png">
+</p>
+
+From these collection of graphs, we can see that there is mostly no interaction, except with the _smoker_ attribute. Let's compare our scatterplots with the interaction plots:
+
+```
+par(mfcol = c(1,2))
+plot(data.model$age, data.model$charges, main = "Age vs Charges", ylab = "Charges", xlab = "Age")
+interaction.plot(data.model$age, data.model$smoker, data.model$charges, col = rainbow(2))
+```
+
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/compareage.png">
+</p>
+
+```
+par(mfcol = c(1,2))
+plot(data.model$bmi, data.model$charges, main = "BMI vs Charges", ylab = "Charges", xlab = "BMI")
+interaction.plot(data.model$bmi, data.model$smoker, data.model$charges, col = rainbow(2))
+
+```
+
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/comparebmi.png">
+</p>
 
 * **Reduction of predictor variables**
 
