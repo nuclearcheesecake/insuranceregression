@@ -77,7 +77,7 @@ First, we can check the qualitative variables to see if any of the pre-defined l
 [4] "northeast"
 ```
 
-Everything seems tobe in order. Now we can check to see if any of the values for the continuous quantitative variables are _null_/_not applicable_:
+Everything seems to be in order. Now we can check to see if any of the values for the continuous quantitative variables are _null_/_not applicable_:
 
 ```
 > which(as.vector(is.na(insurance_df$age)) == TRUE)
@@ -114,7 +114,7 @@ And indeed there seems to be a duplicated row. Let's see which row it is a dupli
 196  19 male 30.59        0     no northwest 1639.563
 ```
 
-So now we can delete row 582 as being a duplicate, since it is unlikely that 2 people with exactly the same age, sex, BMI, children, smoker- and region-classification would pay the exact same amount, since that would mean that these two equitable people suffered the same afflication the same amount of time. First we check how many entries are in the data frame, then delete the duplicate, look at the new values in that row compared with row 196 and then check how many entries we have now:
+So now we can delete row 582 as being a duplicate, since it is unlikely that 2 people with exactly the same age, sex, BMI, children, smoker- and region-classification would pay the exact same amount, since that would mean that these two equitable people suffered the same afflication in a short amount of time. First we check how many entries are in the data frame, then delete the duplicate, look at the new values in that row compared with row 196 and then check how many entries we have now:
 
 ```
 > insurance_df = insurance_df[-582,]
@@ -185,6 +185,24 @@ Great! Now we can start working on building a model with the data in _data.model
 ## 3. Creating the LRM
 
 * **Predictors vs Response - any relationship?**
+
+Let's use a graphical approach to see if there is any relationship in the sample data:
+
+```
+par(mfcol = c(2,3))
+plot(data.model$age, data.model$charges, main = "Age vs Charges", ylab = "Charges", xlab = "Age")
+plot(factor(data.model$sex), data.model$charges, main = "Sex vs Charges", col = c("pink", "lightblue"), ylab = "Charges", xlab = "Sex")
+plot(data.model$bmi, data.model$charges, main = "BMI vs Charges", ylab = "Charges", xlab = "BMI")
+plot(factor(data.model$children), data.model$charges, main = "Children vs Charges", ylab = "Charges", xlab = "Number of children", col = rainbow(5))
+plot(factor(data.model$smoker), data.model$charges, main = "Smoker vs Charges", col = rainbow(2), ylab = "Charges", xlab = "Smoker?")
+plot(factor(data.model$region), data.model$charges, main = "Region vs Charges", col = rainbow(4), names = c("NE", "NW", "SE", "SW"), ylab = "Charges", xlab = "Region")
+```
+
+<p align="center">
+  <img width="725" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/sampleplot.png">
+</p>
+
+I will thus have to explore the _age_ attribute more thoroughly. At this stage, I am reasonably certain that your BMI, sex, children and region will not have a large effect, but we will see. Being a smoker, on the other hand, is expected to have an effect on your charges.
 
 * **Checking for interactions and multicollinearity**
 
