@@ -266,6 +266,36 @@ interaction.plot(data.model$bmi, data.model$smoker, data.model$charges, col = ra
   <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/comparebmi.png">
 </p>
 
+So the upper two "strokes" of data in the age scatterplot can be attributed to smokers, and the lower to non-smokers. Similarly, the lower "cloud" of data in BMI are non-smokers, and the higher is smokers. So there is some explanation for the trends in age and BMI. But what these two comparisions fail to solve, is the fact that the smoker data still varies so wildly in the interaction plot, to such a degree that it causes smokers to split into two "strokes" in the age scatterplot. Similarly, looking at the BMI scatterplot, the upper "cloud" seems to be segmented in two - a glance at the BMI interaction plot confirms this notion, that for smokers, BMI is segmented.
+
+If we look at the BMI/smoker graphs, we see that this segmentation is seperated at about the 30 mark. Let's create a new vector of data that is TRUE if a person's BMI is equal to or lower than 30, and FALSE if higher. Having a high or low BMI if you are a smoker might then have a correlation with charges.
+
+```
+lowbmi = (data.model$bmi <= 30)
+par(mfcol = c(1,2))
+interaction.plot(data.model$age, lowbmi, data.model$charges, col = rainbow(2))
+interaction.plot(lowbmi, data.model$smoker, data.model$charges, col = rainbow(2))
+```
+
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/lowbmi.png">
+</p>
+
+Indeed we can see on the left that the FALSE group, where the BMI is above 30, will have a higher charge regardless of age. On the right we also see that if you are a non-smoker, your charge is not influenced greatly by your BMI, wheares for smokers, the mean charge of people with higher BMIs are much higher.
+
+To further see the combined effect of smoking and BMI, let's create a new vector that measures whether a person smokes and has a BMI lower or equal to 30. If we draw the interaction plot of that with age, with the effect on charges, it all becomes more clear:
+
+```
+lowbmiandsmoke = paste(data.model$smoker, as.character(data.model$bmi <= 30))
+interaction.plot(data.model$age, lowbmiandsmoke, data.model$charges, col = rainbow(2))
+```
+
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/combined.png">
+</p>
+
+This explains the three "strokes" in the age data perfectly! The lower "stroke" is all the non-smokers, whereas the upper "strokes" are the smokers with differing BMIs.
+
 * **Reduction of predictor variables**
 
 * **Model refinement and selection**
