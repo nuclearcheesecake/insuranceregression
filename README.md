@@ -39,10 +39,109 @@ The data is considered [open data](https://opendatacommons.org/licenses/dbcl/1-0
 
 * **Loading and exploring the data**
 
+I load the data into RStudio as follows:
+
+```
+insurance_df = read.csv(file = "C:\\Users\\wicka\\Desktop\\Insurance LRM project\\insurance.csv", header = T)
+```
+
+This creates a data frame. We can explore the composition of the columns as follows:
+
+```
+> str(insurance_df)
+'data.frame':	1337 obs. of  7 variables:
+ $ age     : int  19 18 28 33 32 31 46 37 37 60 ...
+ $ sex     : chr  "female" "male" "male" "male" ...
+ $ bmi     : num  27.9 33.8 33 22.7 28.9 ...
+ $ children: int  0 1 3 0 0 0 1 3 2 0 ...
+ $ smoker  : chr  "yes" "no" "no" "no" ...
+ $ region  : chr  "southwest" "southeast" "southeast" "northwest" ...
+ $ charges : num  16885 1726 4449 21984 3867 ...
+```
+
+The data types of all of the columns check out, thus we do not have to change anything there. Since they have a small number of discrete levels, I note that _sex_, _children_, _smoker_ and _region_ will have to be dealt with as qualitative variables.
 
 * **Cleaning the data**
 
+First, we can check the qualitative variables to see if any of the pre-defined levels have been entered incorrectly:
+
+```
+> unique(insurance_df$sex)
+[1] "female" "male"  
+> unique(insurance_df$children)
+[1] 0 1 3 2 5 4
+> unique(insurance_df$smoker)
+[1] "yes" "no" 
+> unique(insurance_df$region)
+[1] "southwest" "southeast" "northwest"
+[4] "northeast"
+```
+
+Everything seems tobe in order. Now we can check to see if any of the values for the continuous quantitative variables are _null_/_not applicable_:
+
+```
+> which(as.vector(is.na(insurance_df$age)) == TRUE)
+integer(0)
+> which(as.vector(is.na(insurance_df$charges)) == TRUE)
+integer(0)
+> which(as.vector(is.na(insurance_df$bmi)) == TRUE)
+integer(0)
+```
+
+I entered the following just to test if this line of code worked, and it outputted the every possible index:
+
+```
+which(as.vector(is.na(insurance_df$age)) == FALSE) # just to see if logic checks out
+```
+
+Thus there are no _null_ values in either the qualitative or the quantitative variables. Next, we check for duplicates:
+
+```
+> which(duplicated(insurance_df) == TRUE)
+[1] 582
+> insurance_df[582,]
+    age  sex   bmi children smoker    region  charges
+582  19 male 30.59        0     no northwest 1639.563
+```
+
+And indeed there seems to be a duplicated row. Let's see which row it is a duplicate of:
+
+```
+> which(insurance_df[,1] == insurance_df[582,1] & insurance_df[,2] == insurance_df[582,2] & insurance_df[,3] == insurance_df[582,3] & insurance_df[,4] == insurance_df[582,4] & insurance_df[,5] == insurance_df[582,5] & insurance_df[,6] == insurance_df[582,6] & insurance_df[,7] == insurance_df[582,7])
+[1] 196 582
+> insurance_df[196,]
+    age  sex   bmi children smoker    region  charges
+196  19 male 30.59        0     no northwest 1639.563
+```
+
+So now we can delete row 582 as being a duplicate, since it is unlikely that 2 people with exactly the same age, sex, BMI, children, smoker- and region-classification would pay the exact same amount, since that would mean that these two equitable people suffered the same afflication the same amount of time. First we check how many entries are in the data frame, then delete the duplicate, look at the new values in that row compared with row 196 and then check how many entries we have now:
+
+```
+> insurance_df = insurance_df[-582,]
+> insurance_df[196,]
+    age  sex   bmi children smoker    region  charges
+196  19 male 30.59        0     no northwest 1639.563
+> insurance_df[582,]
+    age  sex   bmi children smoker    region  charges
+583  39 male 45.43        2     no southeast 6356.271
+> nrow(insurance_df)
+[1] 1337
+```
+
+Now our data can be considered clean, and we can proceed to working with it.
+
 * **Splitting the data 80/20**
+
+Firstly, we have to define the sample size that we want to gather from the data frame. I am also setting a seed so that the results I obtain can be reproducible if the same seed is used on someone else's computer. The sample taken will then still be random, but always be the same sample for this data frame and seed.
+
+```
+> samplesize = floor(0.2*nrow(insurance_df))
+> samplesize
+[1] 267
+> set.seed(123)
+```
+
+Thus I will be holding out 267 entries to test my data on. 
 
 <a name="3"></a>
 ## 3. Creating the LRM
