@@ -9,7 +9,7 @@
 1. [Scenario explanation](#1)
 2. [Obtaining and cleaning the data](#2)
 3. [Creating the LRM](#3)
-4. [Prediction and visualisation](#4)
+4. [Validation and prediction](#4)
 
 <a name="1"></a>
 ## 1. Scenario explanation
@@ -179,12 +179,26 @@ To test that we assigned the right amount of variables to the right data frame, 
 [1] 267
 ```
 
-
+Great! Now we can start working on building a model with the data in _data.model_.
 
 <a name="3"></a>
 ## 3. Creating the LRM
 
+* **Predictors vs Response - any relationship?**
 
+* **Checking for interactions and multicollinearity**
+
+* **Reduction of predictor variables**
+
+* **Model refinement and selection**
+
+* **Automatic selection procedures in R**
+
+* **Final model selection based on objective measures**
 
 <a name="4"></a>
-## 4. Prediction and visualisation
+## 4. Validation and prediction
+
+* **Model selection measures - why the model chosen is the best possible model**
+
+* **Testing the model using cross-validation**
