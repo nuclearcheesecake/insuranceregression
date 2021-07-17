@@ -338,15 +338,36 @@ insurance.lm = lm(data.model$charges ~ data.model$age + factor(data.model$sex) +
   + factor(data.model$smoker):factor(data.model$lowbmi))
 ```
 
+This is a lot of predictors! I would like to reduce the amount of predictors without sacrificing the accuracy of the model. To save time, I will do this via the "olsrr" package in R.
+
 <ins> Automatic selection procedures in R </ins>
 
-Now let's to the "all possible subset" approach to find the best model to use for prediction. 
+Let's to the "all possible subset" approach to find the best model to use for prediction. This approach will step through all the possible combination of predictors as entered in "insurance.lm", and calculate a certain measure of goodness of fit for that model. In the end, we choose the model from all these combinations with the best measure.
 
-* **Final model selection based on objective measures**
+```
+install.packages("olsrr")
+library("olsrr")
+allfits = data.frame(ols_step_all_possible(insurance.lm))
+```
 
-* **Post hoc analysis**
+I will be using the adjusted R-squared value, since I find it to be a reliable measure of goodness of fit. Here we can find the index of the predictor combination that maximises this value. We also print the value, and see that it is *0.8745169*, which means that the best combination of predictors fits our data with 87.45169% accuracy, which is not bad.
+
+```
+> index = which(allfits$adjr == max(allfits$adj))
+> max(allfits$adj)
+[1] 0.8745169
+> allfits[index,"predictors"]
+[1] "data.model$age factor(data.model$sex) factor(data.model$smoker) data.model$bmi factor(data.model$children) factor(data.model$region) factor(data.model$lowbmi) data.model$age:factor(data.model$lowbmi) factor(data.model$smoker):factor(data.model$lowbmi)"
+```
+
+The model thus chosen is one that includes age, sex, smoker, bmi, children, region, lowbmi, the interaction between age and lowbmi, and the interaction between smoker and lowbmi. This is still quite a lot of predictors, but since it is our best model, we will go with it.
 
 * **Constructing the LRM using linear algebra**
+
+Let's construct our design matrix for this model. For age, sex and bmi, we will include the columns as they are. But for sex, smoker, children, region and lowbmi, we will have to construct dummy variables.
+
+
+* **Post hoc analysis**
 
 
 * **Constructing the LRM using lm() in R**
