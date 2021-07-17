@@ -132,7 +132,7 @@ Now our data can be considered clean, and we can proceed to working with it.
 
 * **Preliminary exploration**
 
-Let's look at the relationships between the various attributes and the insurance charge, just for interest's sake, and to get an idea of what is going on in the data. This will not be used to make decisions off of, since the data has not been split yet, but just so that I can get a feel for what lies in the dataset.
+Let's look at the relationships between the various attributes and the insurance charge, just for interest's sake, and to get an idea of what is going on in the data. This will not be used to make decisions off of, since the data has not been split yet, but just so that I can get a feel for what lies in the dataset. I treat _children_ as a qualitative factor to make visualisation easier, but in the final analysis, I will treat it as a quantitative.
 
 ```
 par(mfcol = c(2,3))
@@ -333,7 +333,7 @@ boxplot(data.model$charges~data.model$lowbmi*data.model$smoker,col = rainbow(4),
 We can now fit a preliminary model. Since we have observed interactions between _lowbmi_, _age_ and _smoker_, we include those in the model as well.
 
 ```
-insurance.lm = lm(data.model$charges ~ data.model$age + factor(data.model$sex) + factor(data.model$smoker) + data.model$bmi + factor(data.model$children)
+insurance.lm = lm(data.model$charges ~ data.model$age + factor(data.model$sex) + factor(data.model$smoker) + data.model$bmi + data.model$children
   +factor(data.model$region) + factor(data.model$lowbmi) + data.model$age:factor(data.model$smoker) + data.model$age:factor(data.model$lowbmi) 
   + factor(data.model$smoker):factor(data.model$lowbmi))
 ```
@@ -354,17 +354,46 @@ I will be using the adjusted R-squared value, since I find it to be a reliable m
 
 ```
 > index = which(allfits$adjr == max(allfits$adj))
-> max(allfits$adj)
-[1] 0.8745169
+>  max(allfits$adj)
+[1] 0.8738067
 > allfits[index,"predictors"]
-[1] "data.model$age factor(data.model$sex) factor(data.model$smoker) data.model$bmi factor(data.model$children) factor(data.model$region) factor(data.model$lowbmi) data.model$age:factor(data.model$lowbmi) factor(data.model$smoker):factor(data.model$lowbmi)"
+[1] "factor(data.model$sex) data.model$bmi data.model$children factor(data.model$region) factor(data.model$lowbmi) data.model$age:factor(data.model$lowbmi) factor(data.model$smoker):factor(data.model$lowbmi)"                                         
+[2] "data.model$age factor(data.model$sex) data.model$bmi data.model$children factor(data.model$region) factor(data.model$lowbmi) data.model$age:factor(data.model$lowbmi) factor(data.model$smoker):factor(data.model$lowbmi)"                          
+[3] "factor(data.model$sex) factor(data.model$smoker) data.model$bmi data.model$children factor(data.model$region) factor(data.model$lowbmi) data.model$age:factor(data.model$lowbmi) factor(data.model$smoker):factor(data.model$lowbmi)"               
+[4] "data.model$age factor(data.model$sex) factor(data.model$smoker) data.model$bmi data.model$children factor(data.model$region) factor(data.model$lowbmi) data.model$age:factor(data.model$lowbmi) factor(data.model$smoker):factor(data.model$lowbmi)"
 ```
 
-The model thus chosen is one that includes age, sex, smoker, bmi, children, region, lowbmi, the interaction between age and lowbmi, and the interaction between smoker and lowbmi. This is still quite a lot of predictors, but since it is our best model, we will go with it.
+So there seems to be 4 different models with the maximum adjusted R-squared, which is 0.8738067. Let's have a look at the other criteria for these entries:
+
+```
+       rsquare      adjr   predrsq      cp      aic     sbic      sbc        msep      fpe       apc      hsp
+955  0.8751052 0.8738067 0.8723893 3.01154 20988.23 17974.35 21052.91 20341261742 19224969 0.1267764 17985.20
+991  0.8751052 0.8738067 0.8723893 5.01154 20988.23 17982.71 21052.91 20360451612 19242803 0.1270136 18002.17
+1006 0.8751052 0.8738067 0.8723893 5.01154 20988.23 17982.71 21052.91 20360451612 19242803 0.1270136 18002.17
+1015 0.8751052 0.8738067 0.8723893 7.01154 20988.23 17991.07 21052.91 20379677723 19260637 0.1272513 18019.17
+```
+
+If we choose to work with Hocking's SP (hsp) next, which we want to minimise, we see that entry 955 is the best option. Thus our model, in the end, will include sex, bmi, children, region, lowbmi, the interaction between age and lowbmi and the interaction betwee smoker and lowbmi.
 
 * **Constructing the LRM using linear algebra**
 
-Let's construct our design matrix for this model. For age, sex and bmi, we will include the columns as they are. But for sex, smoker, children, region and lowbmi, we will have to construct dummy variables.
+Let's construct our design matrix for this model. We can include bmi as is. I will also include children as an integer value, since it is perfectly reasonable for a person to have more than 5 children, and if included as a factor, they will break the model. But for the rest, we will have to construct dummy variables. 
+
+3 dummies for region
+1 dummy sex
+1 dummy for smoker
+1 dummy for lowbmi
+
+
+Since we thus have 9 predictors, we will need a matrix with 10 columns.
+
+
+Doing this in R means creating the following object:
+
+```
+final_insurancemodel = lm(data.model$charges ~ factor(data.model$sex) + data.model$bmi + data.model$children + factor(data.model$region) 
+  + factor(data.model$lowbmi) + data.model$age:factor(data.model$smoker) + factor(data.model$smoker):factor(data.model$lowbmi))
+```
 
 
 * **Post hoc analysis**
