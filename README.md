@@ -297,9 +297,13 @@ interaction.plot(data.model$age, lowbmiandsmoke, data.model$charges, col = c("re
 </p>
 
 > Where:
+> 
 > **no TRUE** = non-smokers with a low BMI
+> 
 > **no FALSE** = non-smokers with a high BMI
+> 
 > **yes TRUE** = smokers with a low BMI
+> 
 > **yes TRUE** = smokers with a high BMI
 
 
