@@ -283,7 +283,7 @@ interaction.plot(lowbmi, data.model$smoker, data.model$charges, col = rainbow(2)
   <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/lowbmi.png">
 </p>
 
-Indeed we can see on the left that the FALSE group, where the BMI is above 30, will have a higher charge regardless of age. On the right we also see that if you are a non-smoker, your charge is not influenced greatly by your BMI, wheares for smokers, the mean charge of people with higher BMIs are much higher.
+Indeed we can see on the left that the FALSE group, where the BMI is above 30, has greater fluctuations into higher charges thatn those with low BMI. On the right we also see that if you are a non-smoker, your charge is not influenced greatly by your BMI, wheares for smokers, the mean charge of people with higher BMIs are much higher.
 
 To further see the combined effect of smoking and BMI, let's create a new vector that measures whether a person smokes and has a BMI lower or equal to 30. If we draw the interaction plot of that with age, with the effect on charges, it all becomes more clear:
 
@@ -295,6 +295,13 @@ interaction.plot(data.model$age, lowbmiandsmoke, data.model$charges, col = c("re
 <p align="center">
   <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/combined.png">
 </p>
+
+> Where:
+**no TRUE** = non-smokers with a low BMI
+**no FALSE** = non-smokers with a high BMI
+**yes TRUE** = smokers with a low BMI
+**yes TRUE** = smokers with a high BMI
+
 
 This explains the three "strokes" in the age data perfectly! The lower "stroke" is all the non-smokers, whereas the upper "strokes" are the smokers with differing BMIs.
 
