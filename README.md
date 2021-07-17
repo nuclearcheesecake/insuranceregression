@@ -16,7 +16,7 @@
 
 <ins> What is the point of this project? </ins>
 
-After completing a theoretical module on _linear regression models_ at university, I wanted to test what I learned, and see if I can use my knowledge to make predictions given raw data. I will thus be creating the linear regression model by using the linear algebra and statistics that I studied during the semester (using R for computations), and then verify my findings using the linear regression functions in R, such as lm() and automatic selection functions.
+After completing a theoretical module on _linear regression models_ at university, I wanted to test what I learned, and see if I can use my knowledge to make predictions given raw data. I will thus be creating the linear regression model by using the linear algebra and statistics that I studied during the semester (using R for computations), and then verify my findings using the linear regression functions in R, such as lm(). I will however be using R to aid in the selection of predictor variables, as doing this by hand will take too long.
 
 The goal of this project is to test the waters to see if I can create a model that reasonably predicts medical costs billed by health insurers, given a few attributes of the patient. I will firstly clean the data, because dirty data won't provide good predictions. Then I will proceed to create the LRM, with a process that will be discussed in [section 3](#3).
 
@@ -330,13 +330,26 @@ boxplot(data.model$charges~data.model$lowbmi*data.model$smoker,col = rainbow(4),
 
 * **Reduction of predictor variables**
 
-<ins> Model refinement and selection </ints>
+We can now fit a preliminary model. Since we have observed interactions between _lowbmi_, _age_ and _smoker_, we include those in the model as well.
+
+```
+insurance.lm = lm(data.model$charges ~ data.model$age + factor(data.model$sex) + factor(data.model$smoker) + data.model$bmi + factor(data.model$children)
+  +factor(data.model$region) + factor(data.model$lowbmi) + data.model$age:factor(data.model$smoker) + data.model$age:factor(data.model$lowbmi) 
+  + factor(data.model$smoker):factor(data.model$lowbmi))
+```
 
 <ins> Automatic selection procedures in R </ins>
+
+Now let's to the "all possible subset" approach to find the best model to use for prediction. 
 
 * **Final model selection based on objective measures**
 
 * **Post hoc analysis**
+
+* **Constructing the LRM using linear algebra**
+
+
+* **Constructing the LRM using lm() in R**
 
 <a name="4"></a>
 ## 4. Validation and prediction
