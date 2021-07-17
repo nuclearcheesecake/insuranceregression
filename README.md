@@ -217,9 +217,7 @@ charges  0.29830821 0.19840083 0.06738935 1.00000000
 
 Age and BMI has a slight positive correlation with charges, and children can be seen as insignificant. The reason for age and BMI not having higher correlations can be due to the interactions present - evident in the "three strokes" in age and the "lower and upper clouds" in BMI. Let's explore that further.
 
-* **Checking for interactions and multicollinearity**
-
-<ins> Interactions between predictors </ins>
+* **Checking for interactions and explaining trends**
 
 Let's look at the interaction between age with the qualitative variables, as well as BMI:
 
@@ -320,16 +318,25 @@ plot(factor(data.model$lowbmi), data.model$charges, main = "BMI classification v
   <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/lowbmibox.png">
 </p>
 
+We can also see the effect through the following graph:
 
-<ins> Multicollinearity </ins>
+```
+boxplot(data.model$charges~data.model$lowbmi*data.model$smoker,col = rainbow(4), main = "Charges vs. BMI classification * Smoker")
+```
+
+<p align="center">
+  <img width="525" src="https://github.com/nuclearcheesecake/insuranceregression/blob/main/misc/inter.png">
+</p>
 
 * **Reduction of predictor variables**
 
-* **Model refinement and selection**
+<ins> Model refinement and selection </ints>
 
-* **Automatic selection procedures in R**
+<ins> Automatic selection procedures in R </ins>
 
 * **Final model selection based on objective measures**
+
+* **Post hoc analysis**
 
 <a name="4"></a>
 ## 4. Validation and prediction
